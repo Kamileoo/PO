@@ -1,23 +1,32 @@
 package recycling;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Scanner;
 
 public class Wezel {
+
     @Deprecated
     @Override
-
-    
-
     protected void finalize() throws Throwable {
-    System.out.println("Finalizowanie obiektu");
-    super.finalize();
+        System.out.println("Finalizowanie obiektu");
+        super.finalize();
     }
 
-    private ArrayList<Wezel> polaczenia = new ArrayList<>();
+    private HashMap<Wezel, Boolean> polaczenia1 = new HashMap<>();
+    private TreeMap<Wezel, Boolean> polaczenia2 = new TreeMap<>();
 
     public void dodajPolaczenie(Wezel w) {
-        
+        polaczenia1.put(w, true);
+        polaczenia2.put(w, true);
+    }
+
+    public boolean czy_jest_nastepnikiem1(Wezel w) {
+        return polaczenia1.containsKey(w);
+    }
+
+    public boolean czy_jest_nastepnikiem2(Wezel w) {
+        return polaczenia2.containsKey(w);
     }
     
     public static void main(String[] args) {
