@@ -1,8 +1,51 @@
 #include <conio.h>
 #include <iostream>
 #include <vector>
+#include <exception>
 
 using namespace std;
+
+class StackException : public exception{
+public:
+    StackException() {}
+    virtual const char* what() const noexcept override {
+        return "Bledna operacja na stosie!";
+    }
+};
+
+class StackFullException : public StackException {
+    int element = 0 ;
+    int maxStackSize = 0 ;
+    string message;
+public :
+    StackFullException() {}
+    StackFullException(string p, int e, int s) {
+        this->element = e;
+        this->maxStackSize = s;
+        this->message = p;
+    }
+    int getMax() const {
+        return this->maxStackSize;
+    }
+    int getEl() const {
+        return this->element;
+    }
+    virtual const char* what() const noexcept override {
+    cout << message << ", rozmiar stosu: " << getMax() << ", element: " << getEl() << endl;
+    }
+};
+
+class StackEmptyException : public StackException {
+    string message;
+public :
+    StackEmptyException() {}
+    StackEmptyException(string p) {
+        this->message = p;
+    }
+    virtual const char* what() const noexcept override {
+        cout << message << endl;
+    }
+};
 
 class Stack {
 private:
@@ -58,47 +101,6 @@ void bar(Stack &s) {
     }
 };
 
-class StackException : public exception{
-public:
-    StackException() {}
-    virtual const char* what() const noexcept override {
-        return "Bledna operacja na stosie!";
-    }
-};
-
-class StackFullException : public StackException {
-    int element = 0 ;
-    int maxStackSize = 0 ;
-    string message;
-public :
-    StackFullException() {}
-    StackFullException(string p, int e, int s) {
-        this->element = e;
-        this->maxStackSize = s;
-        this->message = p;
-    }
-    int getMax() const {
-        return this->maxStackSize;
-    }
-    int getEl() const {
-        return this->element;
-    }
-    virtual const char* what() const noexcept override {
-    cout << message << ", rozmiar stosu: " << getMax() << ", element: " << getEl() << endl;
-    }
-};
-
-class StackEmptyException : public StackException {
-    string message;
-public :
-    StackEmptyException() {}
-    StackEmptyException(string p) {
-        this->message = p;
-    }
-    virtual const char* what() const noexcept override {
-        cout << message << endl;
-    }
-};
 
 
 int main() {
