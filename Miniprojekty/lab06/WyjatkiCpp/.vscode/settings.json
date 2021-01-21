@@ -4,6 +4,7 @@
         "xiosbase": "cpp",
         "xlocale": "cpp",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "string": "cpp"
     }
 }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <exception>
+#include <string>
 
 using namespace std;
 
@@ -31,7 +32,8 @@ public :
         return this->element;
     }
     virtual const char* what() const noexcept override {
-    cout << message << ", rozmiar stosu: " << getMax() << ", element: " << getEl() << endl;
+        string s = message + ", rozmiar stosu: " + to_string(maxStackSize) + ", element: " + to_string(element);
+        return s.c_str();
     }
 };
 
@@ -43,7 +45,7 @@ public :
         this->message = p;
     }
     virtual const char* what() const noexcept override {
-        cout << message << endl;
+        return message.c_str();
     }
 };
 
@@ -53,8 +55,11 @@ private:
     vector<int> dfs;
     int top;
 public:
-    Stack();
-    Stack(int max);
+    Stack() {}
+    Stack(int max) {
+        this->maxStackSize = max;
+        top = 0;
+    }
     void push(int n) {
         if(dfs.size() == maxStackSize) {
             throw StackFullException("Full Stack", n, maxStackSize);
@@ -106,11 +111,12 @@ void bar(Stack &s) {
 int main() {
     Stack s(5);
     int n = 0;
-    foo(s);
+    //foo(s);
+    //bar(s);
     cout << "End" << endl;
 
     try{
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < 5; i++) {
             cin >> n;
             s.push(n);
         }
@@ -119,10 +125,10 @@ int main() {
         }
     }
     catch(StackException &e) {
-        e.what();
+        cout << e.what() << endl;
     }
     catch(exception &e ) {
-        e.what();
+        cout << e.what() << endl;
     }
 
     return 0;
@@ -132,4 +138,7 @@ int main() {
 3.  Funkcja używa noexcept, co oznacz, że nie będzie wyrzucała żadnych wyjątków. Używamy jej ponieważ jesteśmy pewni, że nie może zajść żaden błąd.
     Zastosowanie ovverride uniemożliwia skompilowanie kodu, w którym klasa pochodna nie będzie posiadała takiej samej metody wirtualnej co klasa bazowa.
     Override w Javie informuje o tym, że metoda podklasy nadpisuje metodę nadklasy.
+5. Zostaje wypisany wyjątek rodzica. Catch otrzymując wyjątek uznaje go za StackException i dla tej klasy wypisuje what().
+6. Zostaje wypisany wyjatek dziecka, prawidłowy. Tutaj catch poprawnie rozpoznaje odpowiednią klasę.
+
 */
